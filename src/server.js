@@ -39,6 +39,12 @@ fastify.route({
   },
 });
 
-fastify.listen({ port: PORT }, () => console.log(`listen on ${PORT}`));
+fastify.listen({ port: PORT }, (err, address) => {
+  if (err) {
+    fastify.log.error(err);
+    process.exit(1);
+  }
+  console.log(`Server listening at ${address}`);
+});
 
 export default fastify;
