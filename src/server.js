@@ -17,7 +17,7 @@ const fetchData = (url, token, webHook) => {
   });
 };
 
-fetchData(userUrl, userToken, webHookUrl)
+fetchData(monobankUrl, userToken, webHookUrl)
   .then((data) => data.json())
   .then((json) => console.log(json))
   .catch((err) => console.error(err));
