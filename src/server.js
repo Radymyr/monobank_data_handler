@@ -12,7 +12,7 @@ const fetchData = (url, token, webHook) => {
     headers: {
       'X-Token': token,
     },
-    body: JSON.stringify({ webHookUrl: webHook + '/' + direction }),
+    body: JSON.stringify({ webHookUrl: webHook + direction }),
   });
 };
 
