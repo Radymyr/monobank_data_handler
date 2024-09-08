@@ -6,6 +6,7 @@ const userToken = process.env.MONOBANK_TOKEN;
 const webHookUrl = process.env.WEB_HOOK_URL;
 const monobankUrl = 'https://api.monobank.ua/personal/webhook';
 const direction = '/monobank/webhook';
+const PORT = process.env.PORT || 3000;
 
 const fetchData = (url, token, webHook) => {
   return fetch(url, {
@@ -38,6 +39,6 @@ fastify.route({
   },
 });
 
-fastify.listen();
+fastify.listen({ port: PORT }, () => console.log(`listen on ${PORT}`));
 
 export default fastify;
