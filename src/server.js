@@ -4,6 +4,7 @@ const fastify = Fastify({ logger: true });
 const userToken = process.env.MONOBANK_TOKEN;
 const webHookUrl = process.env.WEB_HOOK_URL;
 const userUrl = 'https://api.monobank.ua/personal/webhook';
+const direction = '/monobank/webhook';
 
 const fetchData = (url, token, webHook) => {
   return fetch(url, {
@@ -11,7 +12,7 @@ const fetchData = (url, token, webHook) => {
     headers: {
       'X-Token': token,
     },
-    body: JSON.stringify({ webHookUrl: webHook }),
+    body: JSON.stringify({ webHookUrl: webHook + '/' + direction }),
   });
 };
 
@@ -22,7 +23,7 @@ fetchData(userUrl, userToken, webHookUrl)
 
 fastify.route({
   method: ['GET', 'POST'],
-  url: '/monobank/webhook',
+  url: direction,
   handler: (request, reply) => {
     if (request.method === 'GET') {
       reply.send('hello').status(200);
