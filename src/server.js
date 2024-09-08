@@ -4,9 +4,8 @@ const fastify = Fastify({ logger: true });
 
 const userToken = process.env.MONOBANK_TOKEN;
 const webHookUrl = process.env.WEB_HOOK_URL;
-const userUrl = 'https://api.monobank.ua/personal/webhook';
+const monobankUrl = 'https://api.monobank.ua/personal/webhook';
 const direction = '/monobank/webhook';
-console.log(userToken);
 
 const fetchData = (url, token, webHook) => {
   return fetch(url, {
@@ -38,5 +37,7 @@ fastify.route({
     }
   },
 });
+
+fastify.listen();
 
 export default fastify;
