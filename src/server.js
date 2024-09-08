@@ -2,9 +2,9 @@ import Fastify from 'fastify';
 import 'dotenv/config';
 const fastify = Fastify({ logger: true });
 
-// const userToken = process.env.MONOBANK_TOKEN;
-// const webHookUrl = process.env.WEB_HOOK_URL;
-// const monobankUrl = 'https://api.monobank.ua/personal/webhook';
+const userToken = process.env.MONOBANK_TOKEN;
+const webHookUrl = process.env.WEB_HOOK_URL;
+const monobankUrl = 'https://api.monobank.ua/personal/webhook';
 const webhookRoute = '/monobank/webhook';
 
 // const fetchData = (url, token, webHook) => {
