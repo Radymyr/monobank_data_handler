@@ -11,7 +11,10 @@ import {
 import { fetchData } from '../src/createWebhook.js';
 
 app.get('/', async (request, reply) => {
-  reply.status(200).send(html);
+  reply
+    .status(200)
+    .type(text / html)
+    .send(html);
 });
 
 app.get('/registration', async (request, reply) => {
