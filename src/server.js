@@ -59,6 +59,7 @@ app.post(telegramRoute, async (request, reply) => {
 });
 
 app.get(`${monobankRoute}/:id`, async (request, reply) => {
+  const id = request.params.id;
   reply.status(200).send(`GET request successful with id: ${id}`);
 });
 
