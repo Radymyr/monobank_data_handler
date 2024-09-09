@@ -1,10 +1,13 @@
 import 'dotenv/config';
 
-export const userToken = process.env.MONOBANK_TOKEN;
-export const webHookUrl = process.env.WEB_HOOK_URL;
-export const route = 'https://api.monobank.ua/personal/webhook';
+export const monobankToken = process.env.MONOBANK_TOKEN;
+export const baseUrl = process.env.WEB_HOOK_URL;
+export const telegramToken = process.env.TELEGRAM_TOKEN;
+export const webhookRegistrationUrl =
+  'https://api.monobank.ua/personal/webhook';
 
-export const webhookRoute = '/monobank/webhook';
+export const monobankRoute = '/monobank/webhook';
+export const telegramRoute = '/telegram/webhook';
 
 export const html = `<!DOCTYPE html>
 <html lang="en">

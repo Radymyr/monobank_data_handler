@@ -2,29 +2,47 @@ import Fastify from 'fastify';
 const app = Fastify({ logger: true });
 
 import {
-  route,
-  userToken,
-  webhookRoute,
-  webHookUrl,
+  webhookRegistrationUrl,
+  monobankToken,
+  monobankRoute,
+  baseUrl,
   html,
 } from '../src/initialized.js';
-import { fetchData } from '../src/createWebhook.js';
+import { makeMonobankWebhook } from './monobank.js';
+import { makeTelegramWebhook } from './telegram.js';
 
 app.get('/', async (request, reply) => {
   reply.status(200).type('text/html').send(html);
 });
 
-app.get('/registration', async (request, reply) => {
-  const result = await fetchData(route, userToken, webHookUrl);
+app.get('/makeMonobankWebhook', async (request, reply) => {
+  const result = await makeMonobankWebhook(
+    webhookRegistrationUrl,
+    monobankToken,
+    baseUrl
+  );
   const json = result.json();
   reply.status(200).send(json);
 });
 
-app.get(webhookRoute, async (request, reply) => {
+app.get('/makeTelegramWebhook', async (request, reply) => {
+  const result = await makeTelegramWebhook();
+
+  const json = result.json();
+  reply.status(200).send(json);
+});
+
+app.post(telegramRoute, async (request, reply) => {
+  console.log('body:', request.body);
+  console.log('params:', request.params);
+  console.log('query:', request.query);
+});
+
+app.get(monobankRoute, async (request, reply) => {
   reply.status(200).send('success');
 });
 
-app.post(webhookRoute, async (request, reply) => {
+app.post(monobankRoute, async (request, reply) => {
   console.log(request.body);
 
   reply.status(200).send('success');
