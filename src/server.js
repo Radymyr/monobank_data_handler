@@ -58,14 +58,16 @@ app.post(telegramRoute, async (request, reply) => {
   reply.status(200).send('success');
 });
 
-app.get(monobankRoute, async (request, reply) => {
-  reply.status(200).send('success');
+app.get(`${monobankRoute}/:id`, async (request, reply) => {
+  reply.status(200).send(`GET request successful with id: ${id}`);
 });
 
-app.post(monobankRoute, async (request, reply) => {
-  console.log(request.body);
+app.post(`${monobankRoute}/:id`, async (request, reply) => {
+  const id = request.params.id;
+  console.log('body:', request.body);
+  console.log('id:', id);
 
-  reply.status(200).send('success');
+  reply.status(200).send(`POST request successful with id: ${id}`);
 });
 
 export default async function handler(req, reply) {
