@@ -21,5 +21,7 @@ export const html = `<!DOCTYPE html>
       type="image/x-icon"
     />
   </head>
-  <body></body>
+  <body>
+    <h1>mono data</h1>
+  </body>
 </html>`;
