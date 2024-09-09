@@ -8,6 +8,7 @@ import {
   baseUrl,
   html,
   telegramRoute,
+  telegramToken,
 } from '../src/initialized.js';
 import { makeMonobankWebhook } from './monobank.js';
 import { makeTelegramWebhook } from './telegram.js';
@@ -64,9 +65,42 @@ app.get(`${monobankRoute}/:id`, async (request, reply) => {
 });
 
 app.post(`${monobankRoute}/:id`, async (request, reply) => {
+  const TELEGRAM_API_URL = `https://api.telegram.org/bot${telegramToken}/sendMessage`;
   const id = request.params.id;
-  console.log('body:', request.body);
-  console.log('id:', id);
+  const messageBody = request.body;
+  const messageText = `ID: ${id}\nBody: ${JSON.stringify(
+    messageBody,
+    null,
+    2
+  )}`;
+
+  try {
+    // Отправляем данные в Telegram с помощью fetch()
+    const response = await fetch(TELEGRAM_API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        chat_id: id, // Используем id пользователя из маршрута
+        text: messageText,
+      }),
+    });
+
+    const telegramResult = await response.json();
+
+    if (response.ok) {
+      reply.status(200).send(`POST request successful with id: ${id}`);
+    } else {
+      console.error('Error from Telegram API:', telegramResult);
+      reply
+        .status(500)
+        .send(`Error from Telegram: ${telegramResult.description}`);
+    }
+  } catch (error) {
+    console.error('Error sending message to Telegram:', error);
+    reply.status(500).send('Error sending message to Telegram');
+  }
 
   reply.status(200).send(`POST request successful with id: ${id}`);
 });
