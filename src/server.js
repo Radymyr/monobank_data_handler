@@ -34,10 +34,13 @@ app.get('/makeTelegramWebhook', async (request, reply) => {
 });
 
 app.post(telegramRoute, async (request, reply) => {
+  const { id } = request.body.message.from;
+  const { text } = request.body.message;
+
   console.log('body:', request.body);
-  console.log('params:', request.params);
-  console.log('query:', request.query);
-  console.log('headers:', request.headers);
+  console.log('text:', text);
+  console.log('id:', id);
+
   reply
     .status(200)
     .send({ body: request.body, params: request.params, query: request.query });
