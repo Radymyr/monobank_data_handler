@@ -37,6 +37,9 @@ app.post(telegramRoute, async (request, reply) => {
   console.log('body:', request.body);
   console.log('params:', request.params);
   console.log('query:', request.query);
+  reply
+    .status(200)
+    .send({ body: request.body, params: request.params, query: request.query });
 });
 
 app.get(monobankRoute, async (request, reply) => {
