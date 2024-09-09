@@ -17,7 +17,6 @@ export const html = `<!DOCTYPE html>
     <title>Document</title>
     <link
       rel="icon"
-      href="public/favicon.ico"
       type="image/x-icon"
     />
   </head>
