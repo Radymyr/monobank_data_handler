@@ -39,7 +39,11 @@ app.post(telegramRoute, async (request, reply) => {
   const tokenFromText = message.text.trim();
   let result = null;
 
-  if (typeof text === 'string' && text.length > 40 && text.length < 50) {
+  if (
+    typeof tokenFromText === 'string' &&
+    tokenFromText.length > 40 &&
+    tokenFromText.length < 50
+  ) {
     result = await makeMonobankWebhook(
       webhookRegistrationUrl,
       tokenFromText,
@@ -47,7 +51,7 @@ app.post(telegramRoute, async (request, reply) => {
       chatId
     );
     console.log(result);
-    const json = result.json();
+    const json = await result.json();
     reply.status(200).send(json);
   }
 
