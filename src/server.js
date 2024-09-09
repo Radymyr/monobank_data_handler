@@ -7,6 +7,7 @@ import {
   monobankRoute,
   baseUrl,
   html,
+  telegramRoute,
 } from '../src/initialized.js';
 import { makeMonobankWebhook } from './monobank.js';
 import { makeTelegramWebhook } from './telegram.js';
