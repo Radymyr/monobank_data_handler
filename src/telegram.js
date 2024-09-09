@@ -1,9 +1,7 @@
-import { telegramToken, baseUrl, telegramRoute } from './initialized.js';
+import { telegramUrl, baseUrl, telegramRoute } from './initialized.js';
 
 export const makeTelegramWebhook = async () => {
-  const url = `https://api.telegram.org/bot${telegramToken}/setWebhook`;
-
-  return await fetch(url, {
+  return await fetch(telegramUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({

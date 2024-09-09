@@ -3,6 +3,7 @@ import 'dotenv/config';
 export const monobankToken = process.env.MONOBANK_TOKEN;
 export const baseUrl = process.env.WEB_HOOK_URL;
 export const telegramToken = process.env.TELEGRAM_TOKEN;
+export const telegramUrl = `https://api.telegram.org/bot${telegramToken}/setWebhook`;
 export const webhookRegistrationUrl =
   'https://api.monobank.ua/personal/webhook';
 

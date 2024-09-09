@@ -16,15 +16,15 @@ app.get('/', async (request, reply) => {
   reply.status(200).type('text/html').send(html);
 });
 
-app.get('/makeMonobankWebhook', async (request, reply) => {
-  const result = await makeMonobankWebhook(
-    webhookRegistrationUrl,
-    monobankToken,
-    baseUrl
-  );
-  const json = result.json();
-  reply.status(200).send(json);
-});
+// app.get('/makeMonobankWebhook', async (request, reply) => {
+//   const result = await makeMonobankWebhook(
+//     webhookRegistrationUrl,
+//     monobankToken,
+//     baseUrl
+//   );
+//   const json = result.json();
+//   reply.status(200).send(json);
+// });
 
 app.get('/makeTelegramWebhook', async (request, reply) => {
   const result = await makeTelegramWebhook();
@@ -34,16 +34,24 @@ app.get('/makeTelegramWebhook', async (request, reply) => {
 });
 
 app.post(telegramRoute, async (request, reply) => {
-  const { id } = request.body.message.from;
-  const { text } = request.body.message;
+  const message = request.body.message;
+  const chatId = message.chat.id;
+  const tokenFromText = message.text.trim();
+  let result = null;
 
-  console.log('body:', request.body);
-  console.log('text:', text);
-  console.log('id:', id);
+  if (typeof text === 'string' && text.length > 40 && text.length < 50) {
+    result = await makeMonobankWebhook(
+      webhookRegistrationUrl,
+      tokenFromText,
+      baseUrl,
+      chatId
+    );
+    console.log(result);
+    const json = result.json();
+    reply.status(200).send(json);
+  }
 
-  reply
-    .status(200)
-    .send({ body: request.body, params: request.params, query: request.query });
+  reply.status(200).send('success');
 });
 
 app.get(monobankRoute, async (request, reply) => {
