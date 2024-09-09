@@ -9,6 +9,10 @@ import {
 } from '../src/initialized.js';
 import { fetchData } from '../src/createWebhook.js';
 
+app.get('/', async (request, reply) => {
+  reply.status(200).send('<h1>Hello world!</h1>');
+});
+
 app.get('/registration', async (request, reply) => {
   const result = await fetchData(route, userToken, webHookUrl);
   const json = result.json();
