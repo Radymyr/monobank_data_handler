@@ -6,11 +6,12 @@ import {
   userToken,
   webhookRoute,
   webHookUrl,
+  html,
 } from '../src/initialized.js';
 import { fetchData } from '../src/createWebhook.js';
 
 app.get('/', async (request, reply) => {
-  reply.status(200).send('<h1>Hello world!</h1>');
+  reply.status(200).send(html);
 });
 
 app.get('/registration', async (request, reply) => {
