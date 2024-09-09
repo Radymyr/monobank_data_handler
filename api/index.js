@@ -1,7 +1,12 @@
 import Fastify from 'fastify';
 const app = Fastify({ logger: true });
 
-import { route, userToken, webHookUrl } from '../src/initialized.js';
+import {
+  route,
+  userToken,
+  webhookRoute,
+  webHookUrl,
+} from '../src/initialized.js';
 import { fetchData } from '../src/createWebhook.js';
 
 app.get('/registration', async (request, reply) => {
