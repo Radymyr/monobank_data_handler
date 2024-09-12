@@ -24,14 +24,9 @@ app.post(telegramRoute, async (request, reply) => {
   const message = request.body.message;
   const chatId = message.chat.id;
   const tokenFromText = message.text.trim();
-  let result = null;
 
-  if (
-    typeof tokenFromText === 'string' &&
-    tokenFromText.length > 40 &&
-    tokenFromText.length < 50
-  ) {
-    result = await makeMonobankWebhook(
+  if (validateToken(tokenFromText)) {
+    const result = await makeMonobankWebhook(
       webhookRegistrationUrl,
       tokenFromText,
       baseUrl,

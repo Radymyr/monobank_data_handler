@@ -67,8 +67,11 @@ export function checkWebhook(req, rep) {
 }
 
 export function showHtml(req, rep) {
-  if (req.query.code) {
-    console.log(req.query.code);
-  }
   rep.status(200).type('text/html').send(html);
+}
+
+export function validateToken(token) {
+  const tokenRegex = /^[a-zA-Z0-9_-]{40,50}$/;
+
+  return tokenRegex.test(token);
 }
