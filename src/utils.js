@@ -62,7 +62,7 @@ export async function fetchDataToTelegram(req, rep) {
 }
 
 export function checkWebhook(req, rep) {
-  const id = request.params.id;
+  const id = req.params.id;
   rep.status(200).send(`GET request successful with id: ${id}`);
 }
 
