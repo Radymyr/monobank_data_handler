@@ -1,4 +1,4 @@
-import { telegramToken } from './initialized.js';
+import { html, telegramToken } from './initialized.js';
 
 export function getCurrencyName(currencyCode) {
   const currencies = {
