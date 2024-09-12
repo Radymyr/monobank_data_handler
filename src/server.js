@@ -9,7 +9,12 @@ import {
 } from '../src/initialized.js';
 import { makeMonobankWebhook } from './monobank.js';
 import { makeTelegramWebhook } from './telegram.js';
-import { checkWebhook, fetchDataToTelegram, showHtml } from './utils.js';
+import {
+  checkWebhook,
+  fetchDataToTelegram,
+  showHtml,
+  validateToken,
+} from './utils.js';
 
 app.get('/', showHtml);
 
