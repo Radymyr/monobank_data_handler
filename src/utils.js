@@ -21,29 +21,6 @@ export function getAmount(amount) {
   return amount / 100;
 }
 
-export async function sendToTelegram(request, reply) {
-  const chatId = request.params.id;
-  const messageBody = request.body;
-  const {
-    time,
-    description,
-    amount,
-    currencyCode,
-    commissionRate,
-    cashbackAmount,
-    balance,
-    hold,
-  } = messageBody.data.statementItem;
-
-  console.log(messageBody);
-
-  if (chatId && messageBody) {
-    await bot.telegram.sendMessage(chatId, JSON.stringify(currencyCode));
-  }
-
-  reply.status(200).send(`POST request successful with id: ${chatId}`);
-}
-
 export function checkWebhook(request, reply) {
   const chatId = request.params.id;
   reply.status(200).send(`GET request successful with id: ${chatId}`);
@@ -57,4 +34,39 @@ export function validateToken(token) {
   const tokenRegex = /^[a-zA-Z0-9_-]{40,50}$/;
 
   return tokenRegex.test(token);
+}
+
+export function formatText(fields) {
+  const {
+    time,
+    description,
+    amount,
+    currencyCode,
+    commissionRate,
+    cashbackAmount,
+    balance,
+    hold,
+  } = fields;
+
+  return `time: ${getDate(time)}\n data: ${description}\n amount: ${getAmount(
+    amount
+  )}\n currency: ${getCurrencyName(
+    currencyCode
+  )}\n commission: ${commissionRate}\n cashback: ${cashbackAmount}\n balance: ${getAmount(
+    balance
+  )}\n hold: ${hold}`;
+}
+
+export async function sendToTelegram(request, reply) {
+  const chatId = request.params.id;
+  const messageBody = request.body;
+  const monobankResponse = formatText(messageBody.data.statementItem);
+
+  console.log(monobankResponse);
+
+  if (chatId && messageBody) {
+    await bot.telegram.sendMessage(chatId, JSON.stringify(monobankResponse));
+  }
+
+  reply.status(200).send(`POST request successful with id: ${chatId}`);
 }
