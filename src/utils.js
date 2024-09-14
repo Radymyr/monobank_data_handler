@@ -24,10 +24,21 @@ export function getAmount(amount) {
 export async function sendToTelegram(request, reply) {
   const chatId = request.params.id;
   const messageBody = request.body;
+  const {
+    time,
+    description,
+    amount,
+    currencyCode,
+    commissionRate,
+    cashbackAmount,
+    balance,
+    hold,
+  } = messageBody.data.statementItem;
+
   console.log(messageBody);
 
   if (chatId && messageBody) {
-    await bot.telegram.sendMessage(chatId, JSON.stringify(messageBody));
+    await bot.telegram.sendMessage(chatId, JSON.stringify(currencyCode));
   }
 
   reply.status(200).send(`POST request successful with id: ${chatId}`);
