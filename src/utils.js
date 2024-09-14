@@ -27,7 +27,7 @@ export async function sendToTelegram(request, reply) {
   console.log(messageBody);
 
   if (chatId && messageBody) {
-    await bot.telegram.sendMessage(chatId, messageBody);
+    await bot.telegram.sendMessage(chatId, JSON.stringify(messageBody));
   }
 
   reply.status(200).send(`POST request successful with id: ${chatId}`);
