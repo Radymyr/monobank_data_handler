@@ -24,6 +24,7 @@ export function getAmount(amount) {
 export async function sendToTelegram(request, reply) {
   const chatId = request.params.id;
   const messageBody = request.body;
+  console.log(messageBody);
 
   if (chatId && messageBody) {
     await bot.telegram.sendMessage(chatId, messageBody);
