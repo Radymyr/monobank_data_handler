@@ -1,5 +1,6 @@
-import Fastify from 'fastify';
-const app = Fastify({ logger: true });
+'use strict';
+
+import { app } from '../src/initialized.js';
 
 import {
   webhookRegistrationUrl,
@@ -7,11 +8,10 @@ import {
   baseUrl,
   telegramRoute,
 } from '../src/initialized.js';
-import { makeMonobankWebhook } from './monobank.js';
-import { makeTelegramWebhook } from './telegram.js';
+import { makeTelegramWebhook, makeMonobankWebhook } from './setWebhooks.js';
 import {
   checkWebhook,
-  fetchDataToTelegram,
+  sendToTelegram,
   showHtml,
   validateToken,
 } from './utils.js';
@@ -19,9 +19,9 @@ import {
 app.get('/', showHtml);
 
 app.get('/makeTelegramWebhook', async (request, reply) => {
-  const result = await makeTelegramWebhook();
+  const result = await makeTelegramWebhook(baseUrl, telegramRoute);
 
-  const json = result.json();
+  const json = await result.json();
   reply.status(200).send(json);
 });
 
@@ -29,6 +29,7 @@ app.post(telegramRoute, async (request, reply) => {
   const message = request.body.message;
   const chatId = message.chat.id;
   const tokenFromText = message.text.trim();
+  await bot.handleUpdate(request.body);
 
   if (validateToken(tokenFromText)) {
     const result = await makeMonobankWebhook(
@@ -46,9 +47,9 @@ app.post(telegramRoute, async (request, reply) => {
 
 app.get(`${monobankRoute}/:id`, checkWebhook);
 
-app.post(`${monobankRoute}/:id`, fetchDataToTelegram);
+app.post(`${monobankRoute}/:id`, sendToTelegram);
 
-export default async function handler(req, reply) {
+export default async function handler(request, reply) {
   await app.ready();
-  app.server.emit('request', req, reply);
+  app.server.emit('request', request, reply);
 }

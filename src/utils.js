@@ -1,4 +1,4 @@
-import { html, telegramToken } from './initialized.js';
+import { bot, html } from './initialized.js';
 
 export function getCurrencyName(currencyCode) {
   const currencies = {
@@ -21,53 +21,24 @@ export function getAmount(amount) {
   return amount / 100;
 }
 
-// split a function into two functions by logic
-export async function fetchDataToTelegram(req, rep) {
-  const TELEGRAM_API_URL = `https://api.telegram.org/bot${telegramToken}/sendMessage`;
-  const id = req.params.id;
-  const messageBody = req.body;
-  const messageText = `ID: ${id}\nBody: ${JSON.stringify(
-    messageBody,
-    null,
-    2
-  )}`;
+export async function sendToTelegram(request, reply) {
+  const chatId = request.params.id;
+  const messageBody = request.body;
 
-  try {
-    const response = await fetch(TELEGRAM_API_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        chat_id: id,
-        text: messageText,
-      }),
-    });
-
-    const telegramResult = await response.json();
-
-    if (response.ok) {
-      rep.status(200).send(`POST request successful with id: ${id}`);
-    } else {
-      console.error('Error from Telegram API:', telegramResult);
-      rep
-        .status(500)
-        .send(`Error from Telegram: ${telegramResult.description}`);
-    }
-  } catch (error) {
-    console.error('Error sending message to Telegram:', error);
-    rep.status(500).send('Error sending message to Telegram');
+  if (chatId && messageBody) {
+    await bot.telegram.sendMessage(chatId, messageBody);
   }
-  rep.status(200).send(`POST request successful with id: ${id}`);
+
+  reply.status(200).send(`POST request successful with id: ${chatId}`);
 }
 
-export function checkWebhook(req, rep) {
-  const id = req.params.id;
-  rep.status(200).send(`GET request successful with id: ${id}`);
+export function checkWebhook(request, reply) {
+  const chatId = request.params.id;
+  reply.status(200).send(`GET request successful with id: ${chatId}`);
 }
 
-export function showHtml(req, rep) {
-  rep.status(200).type('text/html').send(html);
+export function showHtml(request, reply) {
+  reply.status(200).type('text/html').send(html);
 }
 
 export function validateToken(token) {

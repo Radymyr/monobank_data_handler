@@ -1,4 +1,10 @@
-import { monobankRoute } from './initialized.js';
+'use strict';
+
+import { bot, monobankRoute } from './initialized.js';
+
+export const makeTelegramWebhook = async (url, route) => {
+  return await bot.telegram.setWebhook(url + route);
+};
 
 export const makeMonobankWebhook = async (url, token, webHook, id) => {
   const webHookUrl = webHook + monobankRoute + '/' + id;
