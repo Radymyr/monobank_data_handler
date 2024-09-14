@@ -48,13 +48,14 @@ export function formatText(fields) {
     hold,
   } = fields;
 
-  return `time: ${getDate(time)}\n data: ${description}\n amount: ${getAmount(
-    amount
-  )}\n currency: ${getCurrencyName(
-    currencyCode
-  )}\n commission: ${commissionRate}\n cashback: ${cashbackAmount}\n balance: ${getAmount(
-    balance
-  )}\n hold: ${hold}`;
+  return `Time: ${getDate(time)}
+Description: ${description}
+Amount: ${getAmount(amount)}
+Currency: ${getCurrencyName(currencyCode)}
+Commission Rate: ${commissionRate}
+Cashback: ${cashbackAmount}
+Balance: ${getAmount(balance)}
+Hold: ${hold}`;
 }
 
 export async function sendToTelegram(request, reply) {
