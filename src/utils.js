@@ -66,7 +66,7 @@ export async function sendToTelegram(request, reply) {
   console.log(monobankResponse);
 
   if (chatId && messageBody) {
-    await bot.telegram.sendMessage(chatId, JSON.stringify(monobankResponse));
+    await bot.telegram.sendMessage(chatId, monobankResponse);
   }
 
   reply.status(200).send(`POST request successful with id: ${chatId}`);
