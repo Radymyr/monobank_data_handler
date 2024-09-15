@@ -63,15 +63,15 @@ export function formatText(fields) {
   const status = hold ? 'В очікуванні' : 'Завершено';
 
   return `
-*Транзакція № \`${id}\`*
+*Транзакція № ${id}*
 *Дата і час*: ${getDate(time)}
 *Опис*: ${description}
 *Категорія (MCC)*: ${categoryIcon} ${mccDescription} (${mcc})
 *Сума*: ${getAmount(amount)} грн
-*Баланс*: ${getAmount(balance)} грн
+*Баланс*: ||${getAmount(balance)}|| грн
 *Комісія*: ${getAmount(commissionRate)} грн
 *Статус*: ${status}
-${balance < 200000 ? '\n⚠️ Баланс нижче 2000 грн.' : ''}
+||${balance < 200000 ? '\n⚠️ Баланс нижче 2000 грн.' : ''}||
   `;
 }
 
