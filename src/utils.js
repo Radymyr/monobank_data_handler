@@ -1,7 +1,7 @@
 'use strict';
 
 import { bot } from './initialized.js';
-import { getMccDescription } from './mccDescriptions.js';
+import { getMccDescription } from './mccCodes.js';
 
 export function getDate(timestamp) {
   const date = new Date(timestamp * 1000);
@@ -57,11 +57,7 @@ export function formatTransactionMessage(fields) {
 Баланс: ${getAmount(balance)} грн
 Комісія: ${getAmount(commissionRate)} грн
 Статус: ${status}
-${
-  balance < 200000
-    ? '\n⚠️ Баланс нижче 2000 грн, рекомендується поповнити рахунок.'
-    : ''
-}
+${balance < 200000 ? '\n⚠️ Баланс нижче 2000 грн.' : ''}
   `;
 }
 

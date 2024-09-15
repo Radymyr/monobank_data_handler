@@ -24,3 +24,7 @@ export const mccDescriptions = {
   5412: 'Магазини продуктів',
   5200: 'Будівельні матеріали',
 };
+
+export function getMccDescription(mcc) {
+  return mccDescriptions[mcc];
+}
