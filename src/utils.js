@@ -62,17 +62,24 @@ export function formatText(fields) {
 
   const status = hold ? 'В очікуванні' : 'Завершено';
 
-  return `
+  let message = `
 *Транзакція № ${id}*
-*Дата і час*: ${getDate(time)}
+*Дата і час*: ${date}
 *Опис*: ${description}
 *Категорія (MCC)*: ${categoryIcon} ${mccDescription} (${mcc})
-*Сума*: ${getAmount(amount)} грн
-*Баланс*: ||${getAmount(balance)}|| грн
-*Комісія*: ${getAmount(commissionRate)} грн
+*Сума*: ${getAmount(amount).toFixed(2)} грн
+*Баланс*: ||${getAmount(balance).toFixed(2)} грн||
+*Комісія*: ${getAmount(commissionRate).toFixed(2)} грн
 *Статус*: ${status}
-||${balance < 200000 ? '\n⚠️ Баланс нижче 2000 грн.' : ''}||
+${balance < 200000 ? '\n||⚠️ Баланс нижче 2000 грн.||' : ''}
   `;
+
+  // Экранирование всех специальных символов Markdown и символов '||'
+  message = message
+    .replace(/([.*+?^${}()|[\]\\])/g, '\\$1')
+    .replace(/\|\|/g, '\\|\\|');
+
+  return message;
 }
 
 export function checkWebhook(request, reply) {
