@@ -19,10 +19,9 @@ import {
 app.get('/', showHtml);
 
 app.get('/makeTelegramWebhook', async (request, reply) => {
-  const result = await makeTelegramWebhook(baseUrl, telegramRoute);
+  await makeTelegramWebhook(baseUrl, telegramRoute);
 
-  const json = await result.json();
-  reply.status(200).send(json);
+  reply.status(200).send('success');
 });
 
 app.post(telegramRoute, async (request, reply) => {

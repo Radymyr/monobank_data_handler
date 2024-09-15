@@ -3,7 +3,8 @@
 import { bot, monobankRoute } from './initialized.js';
 
 export const makeTelegramWebhook = async (url, route) => {
-  return await bot.telegram.setWebhook(url + route);
+  await bot.telegram.setWebhook(url + route);
+  await bot.telegram.getWebhookInfo().then((info) => console.log(info));
 };
 
 export const makeMonobankWebhook = async (url, token, webHook, id) => {
