@@ -99,7 +99,7 @@ export async function sendToTelegram(request, reply) {
 
   if (chatId && messageBody) {
     await bot.telegram.sendMessage(chatId, monobankResponse, {
-      parse_mode: 'MarkdownV2',
+      parse_mode: 'Markdown',
     });
   }
 
