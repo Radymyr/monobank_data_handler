@@ -68,11 +68,11 @@ export function formatText(fields) {
 *Опис*: ${description}
 *Категорія (MCC)*: ${categoryIcon} ${mccDescription} (${mcc})
 *Сума*: ${getAmount(amount)} грн
-*Баланс*: ||${getAmount(balance)}|| грн
+*Баланс*: |${getAmount(balance)}| грн
 *Комісія*: ${getAmount(commissionRate)} грн
 *Статус*: ${status}
 
-⚠️ Баланс нижче ||${getAmount(2000)}|| грн\\.
+⚠️ Баланс нижче |${getAmount(2000)}| грн\\.
 `.replace(/([.*+?^${}()|[\]\\])/g, '\\$1');
 
   return message;
