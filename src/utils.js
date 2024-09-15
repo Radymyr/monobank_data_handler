@@ -68,10 +68,10 @@ export function formatText(fields) {
 *Опис*: ${description}
 *Категорія (MCC)*: ${categoryIcon} ${mccDescription} (${mcc})
 *Сума*: ${getAmount(amount)} грн
-*Баланс*: |${getAmount(balance)}| грн
+*Баланс*: ||${getAmount(balance)}|| грн
 *Комісія*: ${getAmount(commissionRate)} грн
 *Статус*: ${status}
-|${balance < 200000 ? '\n⚠️ Баланс нижче 2000 грн.' : ''}|
+${balance < 200000 ? '\n⚠️ Баланс нижче ||2000|| грн.' : ''}
   `;
 }
 
@@ -99,7 +99,7 @@ export async function sendToTelegram(request, reply) {
 
   if (chatId && messageBody) {
     await bot.telegram.sendMessage(chatId, monobankResponse, {
-      parse_mode: 'Markdown',
+      parse_mode: 'MarkdownV2',
     });
   }
 
