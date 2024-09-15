@@ -71,7 +71,7 @@ export function formatText(fields) {
 *Баланс*: ||${getAmount(balance)}|| грн
 *Комісія*: ${getAmount(commissionRate)} грн
 *Статус*: ${status}
-${balance < 200000 ? '\n⚠️ Баланс нижче ||2000|| грн.' : ''}
+${balance < 200000 ? '\n⚠️ Баланс нижче ||2000|| грн\\.' : ''}
   `;
 }
 
