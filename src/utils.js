@@ -62,7 +62,7 @@ export function formatText(fields) {
 
   const status = hold ? 'В очікуванні' : 'Завершено';
 
-  return `
+  const message = `
 *Транзакція № ${id}*
 *Дата і час*: ${getDate(time)}
 *Опис*: ${description}
@@ -71,8 +71,11 @@ export function formatText(fields) {
 *Баланс*: ||${getAmount(balance)}|| грн
 *Комісія*: ${getAmount(commissionRate)} грн
 *Статус*: ${status}
-${balance < 200000 ? '\n⚠️ Баланс нижче ||2000|| грн\\.' : ''}
-  `;
+
+⚠️ Баланс нижче ||${getAmount(2000)}|| грн\\.
+`.replace(/([.*+?^${}()|[\]\\])/g, '\\$1');
+
+  return message;
 }
 
 export function checkWebhook(request, reply) {
