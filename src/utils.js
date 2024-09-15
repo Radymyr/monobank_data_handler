@@ -63,17 +63,17 @@ export function formatText(fields) {
   const status = hold ? 'В очікуванні' : 'Завершено';
 
   const message = `
-*Транзакція № ${id}*
-*Дата і час*: ${getDate(time)}
-*Опис*: ${description}
-*Категорія (MCC)*: ${categoryIcon} ${mccDescription} (${mcc})
-*Сума*: ${getAmount(amount)} грн
-*Баланс*: |${getAmount(balance)}| грн
-*Комісія*: ${getAmount(commissionRate)} грн
-*Статус*: ${status}
-
-⚠️ Баланс нижче |${getAmount(2000)}| грн\\.
-`.replace(/([.*+?^${}()|[\]\\])/g, '\\$1');
+  *Транзакція № ${id}*
+  *Дата і час*: ${getDate(time)}
+  *Опис*: ${description}
+  *Категорія (MCC)*: ${categoryIcon} ${mccDescription} (${mcc})
+  *Сума*: ${getAmount(amount).toFixed(2)} грн
+  *Баланс*: ||${getAmount(balance).toFixed(2)}|| грн
+  *Комісія*: ${getAmount(commissionRate).toFixed(2)} грн
+  *Статус*: ${status}
+  
+  ⚠️ Баланс нижче ||${getAmount(2000).toFixed(2)}|| грн\\.
+  `.replace(/([_*\[\]()~`>#+\-=|{}.!])/g, '\\$1'); // Экранирование всех специальных символов Markdown
 
   return message;
 }
