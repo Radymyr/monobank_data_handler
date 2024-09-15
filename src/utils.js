@@ -1,4 +1,18 @@
-import { bot, html } from './initialized.js';
+'use strict';
+
+import { bot } from './initialized.js';
+import { getMccDescription } from './mccDescriptions.js';
+
+export function getDate(timestamp) {
+  const date = new Date(timestamp * 1000);
+  return date.toLocaleString('uk-UA', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+}
 
 export function getCurrencyName(currencyCode) {
   const currencies = {
@@ -7,66 +21,64 @@ export function getCurrencyName(currencyCode) {
     978: 'EUR',
     643: 'RUB',
   };
-
   return currencies[currencyCode] || 'Unknown currency';
 }
 
-export function getDate(timestamp) {
-  const date = new Date(timestamp * 1000);
-
-  return date.toUTCString();
-}
-
 export function getAmount(amount) {
-  return amount / 100;
+  return (amount / 100).toFixed(2);
 }
 
-export function checkWebhook(request, reply) {
-  const chatId = request.params.id;
-  reply.status(200).send(`GET request successful with id: ${chatId}`);
+export function formatTransactionMessage(fields) {
+  const { id, time, description, mcc, amount, balance, commissionRate, hold } =
+    fields;
+
+  const date = getDate(time);
+
+  const mccIcons = {
+    5411: '🛒',
+    4829: '🚗',
+    5812: '🍽️',
+    5541: '⛽',
+    4900: '💡',
+    default: '💳',
+  };
+
+  const mccDescription = getMccDescription(mcc);
+  const categoryIcon = mccIcons[mcc] || mccIcons.default;
+
+  const status = hold ? 'В очікуванні' : 'Завершено';
+
+  return `
+**Транзакція № ${id}**
+Дата і час: ${date}
+Опис: ${description}
+Категорія (MCC): ${categoryIcon} ${mccDescription} (${mcc})
+Сума: ${getAmount(amount)} грн
+Баланс: ${getAmount(balance)} грн
+Комісія: ${getAmount(commissionRate)} грн
+Статус: ${status}
+${
+  balance < 200000
+    ? '\n⚠️ Баланс нижче 2000 грн, рекомендується поповнити рахунок.'
+    : ''
 }
-
-export function showHtml(request, reply) {
-  reply.status(200).type('text/html').send(html);
-}
-
-export function validateToken(token) {
-  const tokenRegex = /^[a-zA-Z0-9_-]{40,50}$/;
-
-  return tokenRegex.test(token);
-}
-
-export function formatText(fields) {
-  const {
-    time,
-    description,
-    amount,
-    currencyCode,
-    commissionRate,
-    cashbackAmount,
-    balance,
-    hold,
-  } = fields;
-
-  return `Time: ${getDate(time)}
-Description: ${description}
-Amount: ${getAmount(amount)}
-Currency: ${getCurrencyName(currencyCode)}
-Commission Rate: ${commissionRate}
-Cashback: ${cashbackAmount}
-Balance: ${getAmount(balance)}
-Hold: ${hold}`;
+  `;
 }
 
 export async function sendToTelegram(request, reply) {
   const chatId = request.params.id;
   const messageBody = request.body;
-  const monobankResponse = formatText(messageBody.data.statementItem);
+
+  const monobankResponse = formatTransactionMessage(
+    messageBody.data.statementItem
+  );
 
   console.log(monobankResponse);
 
   if (chatId && messageBody) {
-    await bot.telegram.sendMessage(chatId, monobankResponse);
+    await bot.telegram.sendMessage(chatId, monobankResponse, {
+      parse_mode: 'Markdown',
+    });
   }
 
   reply.status(200).send(`POST request successful with id: ${chatId}`);
