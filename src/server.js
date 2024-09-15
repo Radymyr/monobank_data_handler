@@ -1,6 +1,6 @@
 'use strict';
 
-import { app } from '../src/initialized.js';
+import { app, bot } from '../src/initialized.js';
 
 import {
   webhookRegistrationUrl,
